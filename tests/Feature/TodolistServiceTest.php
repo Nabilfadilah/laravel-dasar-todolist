@@ -28,15 +28,44 @@ class TodolistServiceTest extends TestCase
     }
 
     // test save todo
-    public function testSaveTodo()
-    {
-        $this->todolistService->saveTodo("1", "Nabil");
+    // public function testSaveTodo()
+    // {
+    //     $this->todolistService->saveTodo("1", "Nabil");
 
-        // ambil dari session
-        $todolist = Session::get("todolist");
-        foreach ($todolist as $value) {
-            self::assertEquals("1", $value["id"]);
-            self::assertEquals("Abil", $value["todo"]);
-        }
+    //     // ambil dari session
+    //     $todolist = Session::get("todolist");
+    //     foreach ($todolist as $value) {
+    //         self::assertEquals("1", $value["id"]);
+    //         self::assertEquals("Abil", $value["todo"]);
+    //     }
+    // }
+
+    // get todolist kosong
+    public function testGetTodolistEmpty()
+    {
+        // harus kosong, sebelum ditambah
+        self::assertEquals([], $this->todolistService->getTodolist());
+    }
+
+    // get todolist tidak boleh kosong
+    public function testGetTodolistNotEmpty()
+    {
+        // pastikan datanya dari todolist
+        $expected = [
+            [
+                "id" => "1",
+                "todo" => "Nabil"
+            ],
+            [
+                "id" => "2",
+                "todo" => "Fadilah"
+            ],
+        ];
+
+        $this->todolistService->saveTodo("1", "Nabil");
+        $this->todolistService->saveTodo("2", "Fadilah");
+
+        // ekpektasi
+        self::assertEquals($expected, $this->todolistService->getTodolist());
     }
 }
