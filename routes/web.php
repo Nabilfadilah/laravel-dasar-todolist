@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\OnlyGuestMiddleware;
 use App\Http\Middleware\OnlyMemberMiddleware;
+use App\Services\TodolistService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,11 @@ Route::controller(\App\Http\Controllers\UserController::class)->group(function (
     Route::get('/login', 'login')->middleware(OnlyGuestMiddleware::class);
     Route::post('/login', 'doLogin')->middleware(OnlyGuestMiddleware::class);
     Route::post('/logout', 'doLogout')->middleware(OnlyMemberMiddleware::class);
+});
+
+// todolist
+Route::controller(TodolistService::class)->middleware([OnlyMemberMiddleware::class])->group(function () {
+    Route::get('/todolist', 'todoList');
+    Route::get('/todolist', 'addTodo');
+    Route::get('/todolist/{id}/delete', 'removeTodo');
 });
