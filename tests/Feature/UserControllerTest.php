@@ -45,4 +45,23 @@ class UserControllerTest extends TestCase
             "user" => "abil"
         ])->post("/logout")->assertRedirect("/")->assertSessionMissing("user");
     }
+
+    // test login page untuk member
+    public function testLoginPageForMember()
+    {
+        $this->withSession([
+            "user" => "abil"
+        ])->get('/login')->assertRedirect("/");
+    }
+
+    // test login berhasil, kenapa perlu login lagi
+    public function testLoginForUserAlreadyLogin()
+    {
+        $this->withSession([
+            "user" => "abil"
+        ])->post('/login', [
+            "user" => "abil",
+            "password" => "rahasia"
+        ])->assertRedirect("/");
+    }
 }

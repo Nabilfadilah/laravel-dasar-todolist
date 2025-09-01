@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\OnlyGuestMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +23,7 @@ Route::view('/template', 'template');
 
 // login
 Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
-    Route::get('/login', 'login');
-    Route::post('/login', 'doLogin');
+    Route::get('/login', 'login')->middleware(OnlyGuestMiddleware::class);
+    Route::post('/login', 'doLogin')->middleware(OnlyGuestMiddleware::class);
     Route::post('/logout', 'doLogout');
 });
